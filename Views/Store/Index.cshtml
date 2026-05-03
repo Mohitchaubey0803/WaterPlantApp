@@ -1,0 +1,85 @@
+@model IEnumerable<WaterPlantApp.Models.Store>
+@{
+    ViewData["Title"] = "Our Stores";
+}
+<div class="page-header">
+    <div class="page-header-inner">
+        <h1>💧 Our Stores</h1>
+        <p>@ViewBag.TotalStores store(s) found — visit us for pure, fresh water</p>
+    </div>
+</div>
+<div class="section">
+    <form method="get" asp-action="Index" class="search-bar">
+        <div class="field">
+            <label>Search</label>
+            <input type="text" name="search" value="@ViewBag.Search" placeholder="Store name or code…" />
+        </div>
+        <div class="field" style="max-width:180px;">
+            <label>City</label>
+            <select name="city">
+                <option value="">All Cities</option>
+                @foreach (var c in (IEnumerable<string>)ViewBag.Cities)
+                {
+                    <option value="@c" selected="@(ViewBag.City == c ? "selected" : null)">@c</option>
+                }
+            </select>
+        </div>
+        <div class="field" style="max-width:180px;">
+            <label>Type</label>
+            <select name="type">
+                <option value="">All Types</option>
+                <option value="Retail"       selected="@(ViewBag.Type=="Retail"?"selected":null)">Retail</option>
+                <option value="Wholesale"    selected="@(ViewBag.Type=="Wholesale"?"selected":null)">Wholesale</option>
+                <option value="Distribution" selected="@(ViewBag.Type=="Distribution"?"selected":null)">Distribution</option>
+            </select>
+        </div>
+        <button type="submit" class="btn-search">🔍 Search</button>
+        <a asp-action="Index" class="btn-clear">Clear</a>
+    </form>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state">
+            <div style="font-size:48px;margin-bottom:12px;">🔍</div>
+            <p>No stores found. Try a different search.</p>
+        </div>
+    }
+    else
+    {
+        <div class="store-grid">
+            @foreach (var (store, idx) in Model.Select((s, i) => (s, i + 1)))
+            {
+                <div class="store-card">
+                    <div class="card-header">
+                        <div class="store-number">@idx</div>
+                        <div class="card-header-info">
+                            <h3>@store.StoreName</h3>
+                            <span class="store-code">@store.StoreCode</span>
+                        </div>
+                        <span class="type-badge type-@store.StoreType">@store.StoreType</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-row"><span class="ico">📍</span><span>@store.FullAddress</span></div>
+                        <div class="info-row"><span class="ico">📞</span><span>@store.PhoneNumber</span></div>
+                        <div class="info-row"><span class="ico">👤</span><span>Manager: <strong>@store.ManagerName</strong></span></div>
+                        @if (!string.IsNullOrEmpty(store.OperatingHours))
+                        {
+                            <div class="info-row"><span class="ico">🕐</span><span>@store.OperatingHours</span></div>
+                        }
+                        @if (store.WaterCapacityLtrs.HasValue)
+                        {
+                            <div class="capacity-wrap">
+                                <div class="capacity-label"><span>Capacity</span><span>@store.WaterCapacityLtrs.Value.ToString("N0") L</span></div>
+                                <div class="bar-track"><div class="bar-fill" style="width:@(Math.Min(100, store.WaterCapacityLtrs.Value / 250))%"></div></div>
+                            </div>
+                        }
+                    </div>
+                    <div class="card-footer">
+                        <a asp-action="Details" asp-route-id="@store.StoreId" class="btn-details">View Details</a>
+                        <a href="tel:@store.PhoneNumber" class="btn-call">📞 Call</a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

@@ -1,0 +1,45 @@
+@{
+    ViewData["Title"] = "Home";
+}
+<div class="hero">
+    <div class="hero-inner">
+        <div class="hero-badge">💧 Pure Water Delivered</div>
+        <h1>AquaPure Water Plant</h1>
+        <p>Providing safe, clean, and purified drinking water across @ViewBag.TotalStores locations near you.</p>
+        <div class="hero-stats">
+            <div class="stat-pill"><span class="stat-num">@ViewBag.TotalStores</span><span class="stat-label">Active Stores</span></div>
+            <div class="stat-pill"><span class="stat-num">@ViewBag.TotalProducts</span><span class="stat-label">Products</span></div>
+            <div class="stat-pill"><span class="stat-num">100%</span><span class="stat-label">Purified</span></div>
+        </div>
+        <div style="margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+            <a asp-controller="Store" asp-action="Index" class="hero-btn-main">View All Stores →</a>
+            <a asp-controller="Store" asp-action="QRPage" class="hero-btn-sec">📱 Get QR Code</a>
+        </div>
+    </div>
+</div>
+<div class="section">
+    <h2 class="section-title">Why AquaPure?</h2>
+    <p class="section-sub">Trusted by thousands of families and businesses</p>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-icon">🧪</div>
+            <h4>Multi-Stage Purification</h4>
+            <p>RO + UV + UF technology removes all contaminants</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🚚</div>
+            <h4>Fast Home Delivery</h4>
+            <p>Same-day delivery to your doorstep</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🏪</div>
+            <h4>@ViewBag.TotalStores Store Locations</h4>
+            <p>Conveniently located stores near you</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">✅</div>
+            <h4>BIS Certified</h4>
+            <p>Meets all Indian quality standards</p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+@{
+    ViewData["Title"] = "QR Code";
+    var storeListUrl  = ViewBag.StoreListUrl as string;
+}
+<div class="qr-page">
+    <h2 class="section-title" style="text-align:center;margin-bottom:6px;">📱 Your Bottle QR Code</h2>
+    <p style="text-align:center;color:#555f6d;margin-bottom:2rem;">Scan to see all AquaPure store locations and details</p>
+
+    <div class="qr-card">
+        <img src="@Url.Action("QRCode","Store")" alt="AquaPure QR Code" class="qr-img" />
+        <h3 style="font-family:'Syne',sans-serif;font-size:1.3rem;color:#003d7a;margin-bottom:4px;">AquaPure Water Plant</h3>
+        <p style="color:#555f6d;font-size:14px;margin-bottom:8px;">Scan this QR code to explore all our stores</p>
+        <code style="background:#f0f8ff;color:#003d7a;padding:6px 16px;border-radius:6px;font-size:13px;display:inline-block;">@storeListUrl</code>
+
+        <div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+            <a href="@Url.Action("QRCode","Store")" download="aquapure-qrcode.png" class="btn btn-primary">⬇ Download QR (PNG)</a>
+            <button onclick="window.print()" class="btn btn-outline">🖨️ Print</button>
+        </div>
+
+        <div class="bottle-label-preview">
+            <div style="font-size:24px;margin-bottom:6px;">💧</div>
+            <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;">AquaPure Water Plant</div>
+            <div style="font-size:12px;opacity:.85;margin:4px 0;">Pure Water · Healthy Life</div>
+            <div style="font-size:11px;opacity:.7;">📱 Scan QR to find our nearest store</div>
+        </div>
+    </div>
+
+    <h3 style="font-family:'Syne',sans-serif;text-align:center;color:#003d7a;margin:2rem 0 1rem;">Print Labels (6-up)</h3>
+    <div class="label-grid" id="label-grid">
+        @for (int i = 0; i < 6; i++)
+        {
+            <div class="label-item">
+                <img src="@Url.Action("QRCode","Store")" style="width:90px;height:90px;" alt="QR" />
+                <p style="font-size:9px;font-weight:700;color:#003d7a;margin-top:5px;">AquaPure Water Plant</p>
+                <p style="font-size:8px;color:#9aa3ae;">Scan for store info</p>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+<style>
+@@media print {
+  .navbar,.footer,h2,p,.label-grid { display:none !important; }
+  .qr-card { box-shadow:none !important; border:none !important; }
+  .qr-img  { width:280px !important; height:280px !important; }
+  .btn     { display:none !important; }
+}
+</style>
+}

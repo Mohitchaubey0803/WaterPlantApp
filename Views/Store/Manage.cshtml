@@ -1,0 +1,49 @@
+@model IEnumerable<WaterPlantApp.Models.Store>
+@{
+    ViewData["Title"] = "Manage Stores";
+}
+<div class="page-header">
+    <div class="page-header-inner" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <div>
+            <h1>⚙️ Manage Stores</h1>
+            <p>Total: @Model.Count() stores</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary">+ Add New Store</a>
+    </div>
+</div>
+<div class="section">
+    <div class="admin-table-wrap">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>#</th><th>Store</th><th>City</th><th>Phone</th><th>Manager</th><th>Type</th><th>Status</th><th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var (store, idx) in Model.Select((s,i) => (s,i+1)))
+                {
+                    <tr>
+                        <td style="font-weight:700;color:#003d7a;">@idx</td>
+                        <td><strong>@store.StoreName</strong><br/><span style="font-size:11px;color:#9aa3ae;">@store.StoreCode</span></td>
+                        <td>@store.City</td>
+                        <td>@store.PhoneNumber</td>
+                        <td>@store.ManagerName</td>
+                        <td><span class="type-badge type-@store.StoreType">@store.StoreType</span></td>
+                        <td><span class="badge @(store.IsActive?"badge-active":"badge-inactive")">@store.StatusBadge</span></td>
+                        <td style="display:flex;gap:6px;flex-wrap:wrap;">
+                            <a asp-action="Details" asp-route-id="@store.StoreId" class="btn btn-sm" style="background:#e6f2ff;color:#003d7a;">View</a>
+                            <a asp-action="Edit"    asp-route-id="@store.StoreId" class="btn btn-sm btn-primary">Edit</a>
+                            @if (store.IsActive)
+                            {
+                                <form asp-action="Delete" asp-route-id="@store.StoreId" method="post" style="display:inline" onsubmit="return confirm('Deactivate this store?')">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-danger">Deactivate</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

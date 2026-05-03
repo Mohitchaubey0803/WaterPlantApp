@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AquaPure Water Plant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+<nav class="navbar">
+    <div class="nav-inner">
+        <a class="nav-brand" asp-controller="Home" asp-action="Index">
+            <span class="brand-drop">💧</span>
+            <span class="brand-text">AquaPure</span>
+        </a>
+        <div class="nav-links">
+            <a asp-controller="Store" asp-action="Index">Our Stores</a>
+            <a asp-controller="Store" asp-action="QRPage" class="btn-qr">📱 QR Code</a>
+            <a asp-controller="Store" asp-action="Manage" class="btn-admin">⚙ Admin</a>
+        </div>
+    </div>
+</nav>
+<main>
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert-success">✓ @TempData["Success"]</div>
+    }
+    @RenderBody()
+</main>
+<footer class="footer">
+    <div class="footer-inner">
+        <span>© @DateTime.Now.Year AquaPure Water Plant</span>
+        <span>Pure Water, Healthy Life 💧</span>
+    </div>
+</footer>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
